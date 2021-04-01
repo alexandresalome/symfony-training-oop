@@ -6,7 +6,7 @@ namespace App\Manager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 
-class RegistrationManager
+class DatabaseRegistrationManager implements RegistrationManagerInterface
 {
     private Connection $connection;
 
@@ -34,8 +34,10 @@ class RegistrationManager
         }
     }
 
-    public function createUser(array $data): void
+    public function createUser(string $username, string $email): void
     {
+        $data = ['username' => $username, 'email' => $email];
+
         try {
             $this->connection->insert('user_list', $data);
         } catch (TableNotFoundException $e) {
