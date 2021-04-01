@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Form\RegistrationFormType;
-use App\Manager\RegistrationManager;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,11 +18,22 @@ class RegistrationController extends AbstractController
     public function index(Request $request): Response
     {
         $form = $this->createForm(RegistrationFormType::class);
-        $manager = new RegistrationManager();
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->createUser($form->getData());
+            try {
+                $conn = DriverManager::getConnection([
+                    'url' => 'sqlite:///' . __DIR__ . '/../../var/data.sqlite',
+                ]);
+
+                $conn->insert('user_list', $form->getData());
+            } catch (TableNotFoundException $e) {
+                $conn->executeStatement('CREATE TABLE user_list (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username VARCHAR(64) NOT NULL,
+                    email VARCHAR(128) NOT NULL
+                )');
+                $conn->insert('user_list', $form->getData());
+            }
 
             return $this->redirectToRoute('homepage');
         }

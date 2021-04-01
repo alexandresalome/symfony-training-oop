@@ -7,6 +7,9 @@
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
             {#{{ encore_entry_link_tags('app') }}#}
+            <style>
+                .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+            </style>
         {% endblock %}
 
         {% block javascripts %}
@@ -14,6 +17,7 @@
         {% endblock %}
     </head>
     <body>
+        <p><a href="{{ path('homepage') }}">Back to homepage</a></p>
         {% block body %}{% endblock %}
     </body>
 </html>
