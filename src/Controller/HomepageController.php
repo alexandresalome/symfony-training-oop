@@ -12,10 +12,8 @@ class HomepageController extends AbstractController
     /**
      * @Route(path="/", name="homepage")
      */
-    public function index(): Response
+    public function index(RegistrationManager $manager): Response
     {
-        $manager = new RegistrationManager();
-
         return $this->render('homepage/index.html.twig', [
             'controller_name' => 'HomepageController',
             'users' => $manager->getUsers(),

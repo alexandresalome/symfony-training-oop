@@ -4,16 +4,15 @@ namespace App\Manager;
 
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 
 class RegistrationManager
 {
     private Connection $connection;
 
-    public function __construct()
+    public function __construct(Connection $connection)
     {
-        $this->connection = $this->createConnection();
+        $this->connection = $connection;
     }
 
     public function getUsers(): array
@@ -37,8 +36,6 @@ class RegistrationManager
 
     public function createUser(array $data): void
     {
-        $this->connection = $this->createConnection();
-
         try {
             $this->connection->insert('user_list', $data);
         } catch (TableNotFoundException $e) {
@@ -49,12 +46,5 @@ class RegistrationManager
             )');
             $this->connection->insert('user_list', $data);
         }
-    }
-
-    private function createConnection(): Connection
-    {
-        return DriverManager::getConnection([
-            'url' => 'sqlite:///'.dirname(__DIR__, 2).'/var/data.sqlite',
-        ]);
     }
 }

@@ -14,10 +14,9 @@ class RegistrationController extends AbstractController
     /**
      * @Route(path="/registration", name="registration")
      */
-    public function index(Request $request): Response
+    public function index(RegistrationManager $manager, Request $request): Response
     {
         $form = $this->createForm(RegistrationFormType::class);
-        $manager = new RegistrationManager();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
