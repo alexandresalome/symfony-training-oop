@@ -30,6 +30,9 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "symfony/browser-kit": "^5.2",
+        "symfony/css-selector": "^5.2",
+        "symfony/phpunit-bridge": "^5.2"
     },
     "config": {
         "optimize-autoloader": true,
