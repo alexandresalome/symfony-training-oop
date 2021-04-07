@@ -26,4 +26,6 @@ class InvoiceLineCollection implements \IteratorAggregate, \Countable
     {
         return count($this->lines);
     }
+
+
 }

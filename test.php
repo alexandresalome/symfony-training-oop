@@ -38,14 +38,17 @@ $style = new SymfonyStyle($input, $output);
 
 $style->title('LA FACTURE');
 
-$headers = ['Description', 'Qty', 'UP'];
+$headers = ['Description', 'Qty', 'UP', "TOTAL"];
 $rows = [];
 foreach ($invoice->getLines() as $line) {
     $rows[] = [
         $line->getDescription()->getAbstract(),
         $line->getQuantity()->getQuantity(),
         $line->getUnitPrice()->toString(),
+        $line->getPriceTotal()->toString()
     ];
 }
+
+$rows[] = ['', '', 'totals:', $invoice->TotalPrice()->toString()];
 
 $style->table($headers, $rows);

@@ -23,7 +23,7 @@ class InvoiceLineBuilder
     /**
      * @param string|Description $description
      */
-    public function setDescription($description): static
+    public function setDescription($description): self
     {
         if (is_string($description)) {
             $description = new Description($description);

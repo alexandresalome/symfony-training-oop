@@ -29,4 +29,11 @@ class InvoiceLine
     {
         return $this->unitPrice;
     }
+
+    public function getPriceTotal(): Price
+    {
+        $amount =  $this->quantity->getQuantity() * $this->unitPrice->getAmount();
+
+        return new Price($amount, new Currency('EUR'));
+    }
 }

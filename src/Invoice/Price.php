@@ -20,4 +20,9 @@ class Price
     {
         return round($this->amount / 100, 2). ' '.$this->currency->getCurrency();
     }
+
+    public function getAmount(): int
+    {
+        return  $this->amount;
+    }
 }

@@ -18,4 +18,15 @@ class Invoice
     {
         return $this->lineCollection;
     }
+
+    public function TotalPrice(): Price
+    {
+        $total=  array_sum(
+            array_map(static function (InvoiceLine $line) {
+                return $line->getPriceTotal()->getAmount();
+            }, $this->lines)
+        );
+
+        return new Price($total, new Currency('EUR'));
+    }
 }
