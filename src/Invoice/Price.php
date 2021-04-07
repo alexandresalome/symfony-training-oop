@@ -33,14 +33,26 @@ class Price
 
     public function addPrice(Price $price): Price
     {
-        if ($this->currency->getCurrency() !== $price->getCurrency()->getCurrency()) {
-            throw new \InvalidArgumentException();
-        }
+        $this->ensureSameCurrency($price);
 
-        return $this->add($price->getAmount());
+        return new Price(
+            $this->amount + $price->amount,
+            $this->currency
+        );
     }
 
-    public function add(int $amount): Price
+    private function ensureSameCurrency(Price $price): void
+    {
+        if ($this->currency->getCurrency() !== $price->getCurrency()->getCurrency()) {
+            throw new \InvalidArgumentException(sprintf(
+                'Cannot mix currency "%s" with "%s".',
+                $this->currency->getCurrency(),
+                $price->getCurrency()->getCurrency()
+            ));
+        }
+    }
+
+    private function add(int $amount): Price
     {
         return new Price($this->amount + $amount, $this->getCurrency());
     }

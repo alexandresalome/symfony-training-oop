@@ -20,6 +20,10 @@ $builder
         ->setDescription('Fluo pencil')
         ->setUnitPrice(new Price(100, new Currency('EUR')))
     ->endLine()
+    ->beginLine()
+        ->setDescription('Fluo pencil')
+        ->setUnitPrice(new Price(100, new Currency('EUR')))
+    ->endLine()
 
     ->beginLine()
         ->setDescription('Black pencil')
@@ -28,6 +32,7 @@ $builder
 
     ->getLine(0)
         ->setDescription('HAOU')
+        ->setQuantity(4000)
 ;
 
 $invoice = $builder->createInvoice();
@@ -38,7 +43,7 @@ $style = new SymfonyStyle($input, $output);
 
 $style->title('LA FACTURE');
 
-$headers = ['Description', 'Qty', 'UP'];
+$headers = ['Description', 'Qty', 'Unit price', 'Total price'];
 $rows = [];
 foreach ($invoice->getLines() as $line) {
     $rows[] = [
@@ -48,12 +53,6 @@ foreach ($invoice->getLines() as $line) {
         $line->getTotalPrice()->toString(),
     ];
 }
-$rows[] = [
-    null,
-    null,
-    null,
-    $invoice->getTotal()->toString(),
-];
-
 
 $style->table($headers, $rows);
+$style->info(sprintf('Total: %s', $invoice->getTotal()->toString()));

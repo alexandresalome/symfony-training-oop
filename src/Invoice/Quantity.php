@@ -8,6 +8,12 @@ class Quantity
 
     public function __construct(int $quantity)
     {
+        if ($quantity < 1) {
+            throw new \InvalidArgumentException(sprintf(
+                'Expected quantity to be greater or equal to 1, got %d.',
+                $quantity
+            ));
+        }
         $this->quantity = $quantity;
     }
 

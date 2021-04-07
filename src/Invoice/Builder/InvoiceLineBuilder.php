@@ -13,10 +13,12 @@ class InvoiceLineBuilder
     private ?Price $unitPrice = null;
     private ?Quantity $quantity = null;
     private InvoiceBuilder $invoiceBuilder;
+    private int $position;
 
-    public function __construct(InvoiceBuilder $invoiceBuilder)
+    public function __construct(InvoiceBuilder $invoiceBuilder, int $position)
     {
         $this->invoiceBuilder = $invoiceBuilder;
+        $this->position = $position;
         $this->quantity = new Quantity(1);
     }
 
@@ -40,9 +42,13 @@ class InvoiceLineBuilder
         return $this;
     }
 
-    public function setQuantity(Quantity $quantity): self
+    /**
+     * @param int|Quantity $quantity
+     * @return $this
+     */
+    public function setQuantity($quantity): self
     {
-        $this->quantity = $quantity;
+        $this->quantity = $quantity instanceof Quantity ? $quantity : new Quantity($quantity);
 
         return $this;
     }
@@ -54,6 +60,14 @@ class InvoiceLineBuilder
 
     public function createLine(): InvoiceLine
     {
+        if (null === $this->description) {
+            throw new \InvalidArgumentException(sprintf('Cannot create line n°%d: no description.', $this->position));
+        }
+
+        if (null === $this->unitPrice) {
+            throw new \InvalidArgumentException(sprintf('Cannot create line n°%d: no unit price.', $this->position));
+        }
+
         return new InvoiceLine(
             $this->description,
             $this->quantity,

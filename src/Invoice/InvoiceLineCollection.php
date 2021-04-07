@@ -2,9 +2,6 @@
 
 namespace App\Invoice;
 
-use Exception;
-use Traversable;
-
 class InvoiceLineCollection implements \IteratorAggregate, \Countable
 {
     /**

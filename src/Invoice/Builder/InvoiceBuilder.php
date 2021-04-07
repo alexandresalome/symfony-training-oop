@@ -11,7 +11,7 @@ class InvoiceBuilder
 
     public function beginLine(): InvoiceLineBuilder
     {
-        $builder = new InvoiceLineBuilder($this);
+        $builder = new InvoiceLineBuilder($this, count($this->lineBuilders));
         $this->lineBuilders[] = $builder;
 
         return $builder;
