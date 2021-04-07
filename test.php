@@ -13,22 +13,20 @@ require_once __DIR__.'/vendor/autoload.php';
 
 $builder = new InvoiceBuilder();
 
+$currency = new Currency('EUR');
 $builder
     // Due date
     // Lines
     ->beginLine()
-        ->setDescription('Fluo pencil')
-        ->setUnitPrice(new Price(100, new Currency('EUR')))
+    ->setDescription('Fluo pencil')
+    ->setUnitPrice(new Price(100, $currency))
     ->endLine()
-
     ->beginLine()
-        ->setDescription('Black pencil')
-        ->setUnitPrice(new Price(50, new Currency('EUR')))
+    ->setDescription('Black pencil')
+    ->setUnitPrice(new Price(50, $currency))
     ->endLine()
-
     ->getLine(0)
-        ->setDescription('HAOU')
-;
+    ->setDescription('HAOU');
 
 $invoice = $builder->createInvoice();
 
@@ -40,12 +38,19 @@ $style->title('LA FACTURE');
 
 $headers = ['Description', 'Qty', 'UP'];
 $rows = [];
+$total = 0;
 foreach ($invoice->getLines() as $line) {
     $rows[] = [
         $line->getDescription()->getAbstract(),
         $line->getQuantity()->getQuantity(),
         $line->getUnitPrice()->toString(),
     ];
+    $total += $line->getQuantity()->getQuantity() * $line->getUnitPrice()->toString();
 }
+$rows[] = [
+    '',
+    'Total:',
+    $total.' '.$currency->getCurrency(),
+];
 
 $style->table($headers, $rows);
