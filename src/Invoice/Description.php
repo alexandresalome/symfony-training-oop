@@ -15,4 +15,13 @@ class Description
     {
         return $this->description;
     }
+
+    public function getAbstract(): string
+    {
+        if (strlen($this->description) > 64) {
+            return substr($this->description, 0, 64).'...';
+        }
+
+        return $this->description;
+    }
 }
