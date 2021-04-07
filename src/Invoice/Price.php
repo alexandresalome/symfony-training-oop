@@ -2,7 +2,7 @@
 
 namespace App\Invoice;
 
-class Price
+class Price implements PriceInterface
 {
     private int $amount;
     private Currency $currency;

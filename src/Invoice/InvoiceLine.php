@@ -6,9 +6,9 @@ class InvoiceLine
 {
     private Description $description;
     private Quantity $quantity;
-    private Price $unitPrice;
+    private PriceInterface $unitPrice;
 
-    public function __construct(Description $description, Quantity $quantity, Price $unitPrice)
+    public function __construct(Description $description, Quantity $quantity, PriceInterface $unitPrice)
     {
         $this->description = $description;
         $this->quantity = $quantity;
@@ -25,12 +25,12 @@ class InvoiceLine
         return $this->quantity;
     }
 
-    public function getUnitPrice(): Price
+    public function getUnitPrice(): PriceInterface
     {
         return $this->unitPrice;
     }
 
-    public function getTotalPrice(): Price
+    public function getTotalPrice(): PriceInterface
     {
         return new Price($this->unitPrice->getAmount() * $this->quantity->getQuantity(), new Currency('EUR'));
     }

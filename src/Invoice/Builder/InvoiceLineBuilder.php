@@ -4,20 +4,22 @@ namespace App\Invoice\Builder;
 
 use App\Invoice\Description;
 use App\Invoice\InvoiceLine;
-use App\Invoice\Price;
+use App\Invoice\PriceInterface;
 use App\Invoice\Quantity;
+use App\Invoice\SuperPrice;
 
 class InvoiceLineBuilder
 {
     private ?Description $description = null;
-    private ?Price $unitPrice = null;
-    private ?Quantity $quantity = null;
+    private ?PriceInterface $unitPrice = null;
+    private ?Quantity $quantity;
     private InvoiceBuilder $invoiceBuilder;
     private int $position;
 
     public function __construct(InvoiceBuilder $invoiceBuilder, int $position)
     {
         $this->invoiceBuilder = $invoiceBuilder;
+        $this->unitPrice = new SuperPrice();
         $this->position = $position;
         $this->quantity = new Quantity(1);
     }
@@ -35,7 +37,7 @@ class InvoiceLineBuilder
         return $this;
     }
 
-    public function setUnitPrice(Price $price): self
+    public function setUnitPrice(PriceInterface $price): self
     {
         $this->unitPrice = $price;
 

@@ -18,16 +18,15 @@ $builder
     // Lines
     ->beginLine()
         ->setDescription('Fluo pencil')
-        ->setUnitPrice(new Price(100, new Currency('EUR')))
+        ->setUnitPrice(new Price(100, new Currency('USD')))
     ->endLine()
     ->beginLine()
         ->setDescription('Fluo pencil')
-        ->setUnitPrice(new Price(100, new Currency('EUR')))
     ->endLine()
 
     ->beginLine()
         ->setDescription('Black pencil')
-        ->setUnitPrice(new Price(50, new Currency('EUR')))
+        ->setUnitPrice(new Price(50, new Currency('USD')))
     ->endLine()
 
     ->getLine(0)

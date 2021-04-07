@@ -22,8 +22,7 @@ class Invoice
     public function getTotal(): Price
     {
         $total = new Price(0, new Currency('EUR'));
-
-        $total->addPrice($this->lineCollection->getTotal());
+        $total = $total->addPrice($this->lineCollection->getTotal());
 
         return $total;
     }
