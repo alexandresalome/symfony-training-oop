@@ -23,4 +23,16 @@ class InvoiceLineCollection implements \IteratorAggregate, \Countable
     {
         return count($this->lines);
     }
+
+    public function getTotal(): Price
+    {
+        $total = new Price(0, new Currency('EUR'));
+
+        /** @var InvoiceLine $line */
+        foreach ($this as $line) {
+            $total = $total->addPrice($line->getTotalPrice());
+        }
+
+        return $total;
+    }
 }

@@ -23,10 +23,7 @@ class Invoice
     {
         $total = new Price(0, new Currency('EUR'));
 
-        /** @var InvoiceLine $line */
-        foreach ($this->lineCollection as $line) {
-            $total = $total->addPrice($line->getTotalPrice());
-        }
+        $total->addPrice($this->lineCollection->getTotal());
 
         return $total;
     }
