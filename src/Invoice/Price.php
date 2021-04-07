@@ -15,4 +15,9 @@ class Price
         $this->amount = $amount;
         $this->currency = $currency;
     }
+
+    public function toString(): string
+    {
+        return round($this->amount / 100, 2). ' '.$this->currency->getCurrency();
+    }
 }

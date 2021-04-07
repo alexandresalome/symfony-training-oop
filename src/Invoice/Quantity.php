@@ -10,4 +10,9 @@ class Quantity
     {
         $this->quantity = $quantity;
     }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
 }

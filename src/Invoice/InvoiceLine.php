@@ -14,4 +14,19 @@ class InvoiceLine
         $this->quantity = $quantity;
         $this->unitPrice = $unitPrice;
     }
+
+    public function getDescription(): Description
+    {
+        return $this->description;
+    }
+
+    public function getQuantity(): Quantity
+    {
+        return $this->quantity;
+    }
+
+    public function getUnitPrice(): Price
+    {
+        return $this->unitPrice;
+    }
 }

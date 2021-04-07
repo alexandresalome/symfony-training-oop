@@ -29,4 +29,17 @@ class InvoiceBuilder
 
         return new Invoice($lineCollection);
     }
+
+    public function getLine(int $position): InvoiceLineBuilder
+    {
+        if (!isset($this->lineBuilders[$position])) {
+            throw new \InvalidArgumentException(sprintf(
+                'No line at position %d. Positions are: %s',
+                $position,
+                empty($this->lineBuilders) ? '*none*' : implode(', ', array_keys($this->lineBuilders))
+            ));
+        }
+
+        return $this->lineBuilders[$position];
+    }
 }

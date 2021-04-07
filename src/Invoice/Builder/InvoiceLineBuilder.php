@@ -20,8 +20,14 @@ class InvoiceLineBuilder
         $this->quantity = new Quantity(1);
     }
 
-    public function setDescription(Description $description): static
+    /**
+     * @param string|Description $description
+     */
+    public function setDescription($description): static
     {
+        if (is_string($description)) {
+            $description = new Description($description);
+        }
         $this->description = $description;
 
         return $this;

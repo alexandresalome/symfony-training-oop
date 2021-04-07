@@ -10,4 +10,12 @@ class Invoice
     {
         $this->lineCollection = $lineCollection;
     }
+
+    /**
+     * @return InvoiceLineCollection|InvoiceLine[]
+     */
+    public function getLines(): iterable
+    {
+        return $this->lineCollection;
+    }
 }
