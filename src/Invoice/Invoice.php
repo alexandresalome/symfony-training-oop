@@ -18,4 +18,16 @@ class Invoice
     {
         return $this->lineCollection;
     }
+
+    public function getTotal(): Price
+    {
+        $total = new Price(0, new Currency('EUR'));
+
+        /** @var InvoiceLine $line */
+        foreach ($this->lineCollection as $line) {
+            $total = $total->addPrice($line->getTotalPrice());
+        }
+
+        return $total;
+    }
 }

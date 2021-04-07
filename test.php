@@ -45,7 +45,15 @@ foreach ($invoice->getLines() as $line) {
         $line->getDescription()->getAbstract(),
         $line->getQuantity()->getQuantity(),
         $line->getUnitPrice()->toString(),
+        $line->getTotalPrice()->toString(),
     ];
 }
+$rows[] = [
+    null,
+    null,
+    null,
+    $invoice->getTotal()->toString(),
+];
+
 
 $style->table($headers, $rows);
