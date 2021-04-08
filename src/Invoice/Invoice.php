@@ -2,12 +2,18 @@
 
 namespace App\Invoice;
 
-class Invoice
+use App\Price\Currency;
+use App\Price\Priced;
+use App\Price\PriceInterface;
+
+class Invoice implements Priced
 {
+    private Currency $currency;
     private InvoiceLineCollection $lineCollection;
 
-    public function __construct(InvoiceLineCollection $lineCollection)
+    public function __construct(InvoiceLineCollection $lineCollection, ?Currency $currency = null)
     {
+        $this->currency = $currency ?? new Currency('EUR');
         $this->lineCollection = $lineCollection;
     }
 
@@ -19,11 +25,13 @@ class Invoice
         return $this->lineCollection;
     }
 
-    public function getTotal(): Price
+    public function getPrice(): PriceInterface
     {
-        $total = new Price(0, new Currency('EUR'));
-        $total = $total->addPrice($this->lineCollection->getTotal());
+        return $this->lineCollection->getPrice();
+    }
 
-        return $total;
+    public function getCount(): int
+    {
+        return 1;
     }
 }

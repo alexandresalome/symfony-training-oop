@@ -2,7 +2,12 @@
 
 namespace App\Invoice;
 
-class InvoiceLineCollection implements \IteratorAggregate, \Countable
+use App\Price\Currency;
+use App\Price\Price;
+use App\Price\Priced;
+use App\Price\PriceInterface;
+
+class InvoiceLineCollection implements \IteratorAggregate, \Countable, Priced
 {
     /**
      * @var InvoiceLine[]
@@ -24,13 +29,13 @@ class InvoiceLineCollection implements \IteratorAggregate, \Countable
         return count($this->lines);
     }
 
-    public function getTotal(): Price
+    public function getPrice(): PriceInterface
     {
         $total = new Price(0, new Currency('EUR'));
 
         /** @var InvoiceLine $line */
         foreach ($this as $line) {
-            $total = $total->addPrice($line->getTotalPrice());
+            $total = $total->addPrice($line->getPrice());
         }
 
         return $total;

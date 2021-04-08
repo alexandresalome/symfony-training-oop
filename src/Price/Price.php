@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Invoice;
+namespace App\Price;
 
 class Price implements PriceInterface
 {
@@ -31,7 +31,7 @@ class Price implements PriceInterface
         return $this->amount;
     }
 
-    public function addPrice(Price $price): Price
+    public function addPrice(PriceInterface $price): PriceInterface
     {
         $this->ensureSameCurrency($price);
 
@@ -41,7 +41,7 @@ class Price implements PriceInterface
         );
     }
 
-    private function ensureSameCurrency(Price $price): void
+    private function ensureSameCurrency(PriceInterface $price): void
     {
         if ($this->currency->getCurrency() !== $price->getCurrency()->getCurrency()) {
             throw new \InvalidArgumentException(sprintf(
@@ -50,10 +50,5 @@ class Price implements PriceInterface
                 $price->getCurrency()->getCurrency()
             ));
         }
-    }
-
-    private function add(int $amount): Price
-    {
-        return new Price($this->amount + $amount, $this->getCurrency());
     }
 }

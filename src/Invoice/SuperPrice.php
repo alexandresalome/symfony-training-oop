@@ -2,6 +2,9 @@
 
 namespace App\Invoice;
 
+use App\Price\PriceInterface;
+use App\Price\Currency;
+
 class SuperPrice implements PriceInterface
 {
     public function getAmount(): int
@@ -11,7 +14,7 @@ class SuperPrice implements PriceInterface
 
     public function getCurrency(): Currency
     {
-        return new Currency('EUR');
+        return new Currency('USD');
     }
 
     public function toString(): string

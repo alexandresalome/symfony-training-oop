@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Invoice;
+namespace App\Price;
 
 interface PriceInterface
 {

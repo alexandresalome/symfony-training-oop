@@ -3,8 +3,10 @@
 namespace Main;
 
 use App\Invoice\Builder\InvoiceBuilder;
-use App\Invoice\Currency;
-use App\Invoice\Price;
+use App\Price\Price;
+use App\Price\Currency;
+use App\ValueComputer\Inventory;
+use App\ValueComputer\ValuableInvoice;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -49,9 +51,15 @@ foreach ($invoice->getLines() as $line) {
         $line->getDescription()->getAbstract(),
         $line->getQuantity()->getQuantity(),
         $line->getUnitPrice()->toString(),
-        $line->getTotalPrice()->toString(),
+        $line->getPrice()->toString(),
     ];
 }
 
 $style->table($headers, $rows);
-$style->info(sprintf('Total: %s', $invoice->getTotal()->toString()));
+$style->info(sprintf('Total: %s', $invoice->getPrice()->toString()));
+
+$valueComputer = new Inventory([
+    new ValuableInvoice($invoice),
+]);
+
+$style->info(sprintf('Total value: %s', $valueComputer->getPrice()->toString()));

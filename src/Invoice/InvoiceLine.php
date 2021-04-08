@@ -2,7 +2,12 @@
 
 namespace App\Invoice;
 
-class InvoiceLine
+use App\Price\Currency;
+use App\Price\Price;
+use App\Price\Priced;
+use App\Price\PriceInterface;
+
+class InvoiceLine implements Priced
 {
     private Description $description;
     private Quantity $quantity;
@@ -30,8 +35,10 @@ class InvoiceLine
         return $this->unitPrice;
     }
 
-    public function getTotalPrice(): PriceInterface
+    public function getPrice(): PriceInterface
     {
-        return new Price($this->unitPrice->getAmount() * $this->quantity->getQuantity(), new Currency('EUR'));
+        $currency = $this->unitPrice->getCurrency();
+
+        return new Price($this->unitPrice->getAmount() * $this->quantity->getQuantity(), $currency);
     }
 }

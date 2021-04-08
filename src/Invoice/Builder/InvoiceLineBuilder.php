@@ -4,9 +4,9 @@ namespace App\Invoice\Builder;
 
 use App\Invoice\Description;
 use App\Invoice\InvoiceLine;
-use App\Invoice\PriceInterface;
 use App\Invoice\Quantity;
 use App\Invoice\SuperPrice;
+use App\Price\PriceInterface;
 
 class InvoiceLineBuilder
 {
