@@ -4,10 +4,18 @@ namespace App\Invoice\Builder;
 
 use App\Invoice\Invoice;
 use App\Invoice\InvoiceLineCollection;
+use App\Invoice\Validator\InvoiceValidatorInterface;
 
 class InvoiceBuilder
 {
     private array $lineBuilders = [];
+
+    private InvoiceValidatorInterface $validator;
+
+    public function __construct(InvoiceValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+    }
 
     public function beginLine(): InvoiceLineBuilder
     {
@@ -27,7 +35,10 @@ class InvoiceBuilder
 
         $lineCollection = new InvoiceLineCollection($lines);
 
-        return new Invoice($lineCollection);
+        $invoice = new Invoice($lineCollection);
+        $this->validator->validate($invoice);
+
+        return $invoice;
     }
 
     public function getLine(int $position): InvoiceLineBuilder
