@@ -12,10 +12,13 @@ class InvoiceNumber
     public function __construct(string $number)
     {
         if (!preg_match(self::VALIDATION_RULE, $number)) {
-            throw new InvalidArgumentException(sprintf(
-                'Invalid invoice number "%s": must match INV-XXX format',
-                $number
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid invoice number "%s": must match "%s" pattern',
+                    $number,
+                    self::VALIDATION_RULE
+                )
+            );
         }
         $this->number = $number;
     }
