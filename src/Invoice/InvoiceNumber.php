@@ -2,13 +2,21 @@
 
 namespace App\Invoice;
 
+use Psr\Log\InvalidArgumentException;
+
 class InvoiceNumber
 {
-    private const VALIDATION_RULE = '/^IN-\d+$/';
+    private const VALIDATION_RULE = '/^INV-\d{3}/';
     private string $number;
 
     public function __construct(string $number)
     {
+        if (!preg_match(self::VALIDATION_RULE, $number)) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid invoice number "%s": must respect INV-XXX format',
+                $number
+            ));
+        }
         $this->number = $number;
     }
 
