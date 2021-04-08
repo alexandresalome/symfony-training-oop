@@ -7,6 +7,7 @@ use App\Invoice\InvoiceRenderer;
 use App\Invoice\Validator\Factory\ChainValidatorFactory;
 use App\Invoice\Validator\Factory\DateValidatorFactory;
 use App\Invoice\Validator\Factory\RangeValidatorFactory;
+use App\Invoice\Validator\FactoryValidator;
 use App\Price\Price;
 use App\Price\Currency;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -16,16 +17,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 require_once __DIR__.'/vendor/autoload.php';
 
-$factory = new ChainValidatorFactory([
+$validator = new FactoryValidator(new ChainValidatorFactory([
     new DateValidatorFactory(),
     new RangeValidatorFactory(),
-]);
+]));
 
-$builder = new InvoiceBuilder($factory);
+$builder = new InvoiceBuilder($validator);
 
 $builder
     // Due date
-    ->setNumber('IN-20210407-001')
+    ->setNumber('IN-20210408-001')
     // Lines
     ->beginLine()
         ->setDescription('Fluo pencil')
