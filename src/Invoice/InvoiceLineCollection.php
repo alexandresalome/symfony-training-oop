@@ -31,7 +31,7 @@ class InvoiceLineCollection implements \IteratorAggregate, \Countable, Priced
 
     public function getPrice(): PriceInterface
     {
-        $total = new Price(0, new Currency('EUR'));
+        $total = new Price(0, new Currency('USD'));
 
         /** @var InvoiceLine $line */
         foreach ($this as $line) {

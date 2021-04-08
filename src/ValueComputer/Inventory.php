@@ -27,7 +27,7 @@ class Inventory
 
     public function getPrice(): PriceInterface
     {
-        $value = new Price(0, new Currency('EUR'));
+        $value = new Price(0, new Currency('USD'));
         foreach ($this->valuables as $valuable) {
             $value = $value->addPrice($valuable->getPrice());
         }
