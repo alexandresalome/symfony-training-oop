@@ -13,7 +13,7 @@ class InvoiceNumber
     {
         if (!preg_match(self::VALIDATION_RULE, $number)) {
             throw new InvalidArgumentException(sprintf(
-                'Invalid invoice number "%s": must respect INV-XXX format',
+                'Invalid invoice number "%s": must match INV-XXX format',
                 $number
             ));
         }
