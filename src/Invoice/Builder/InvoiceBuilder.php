@@ -5,18 +5,18 @@ namespace App\Invoice\Builder;
 use App\Invoice\Invoice;
 use App\Invoice\InvoiceLineCollection;
 use App\Invoice\InvoiceNumber;
+use App\Invoice\Validator\Factory\ValidatorFactoryInterface;
 use App\Invoice\Validator\InvoiceValidatorInterface;
 
 class InvoiceBuilder
 {
     private array $lineBuilders = [];
     private ?InvoiceNumber $number = null;
+    private ValidatorFactoryInterface $factory;
 
-    private InvoiceValidatorInterface $validator;
-
-    public function __construct(InvoiceValidatorInterface $validator)
+    public function __construct(ValidatorFactoryInterface $factory)
     {
-        $this->validator = $validator;
+        $this->factory = $factory;
     }
 
     /**
@@ -52,7 +52,9 @@ class InvoiceBuilder
 
         $lineCollection = new InvoiceLineCollection($lines);
         $invoice = new Invoice($this->number, $lineCollection);
-        $this->validator->validate($invoice);
+
+        $validator = $this->factory->createValidator($invoice);
+        $validator->validate($invoice);
 
         return $invoice;
     }

@@ -6,6 +6,10 @@ use App\Price\Currency;
 use App\Price\Priced;
 use App\Price\PriceInterface;
 
+/**
+ * We don't want to modify invoices after their creation, for legal requirements.
+ * For this reason, Invoice must be a value object (ie no modification).
+ */
 class Invoice implements Priced
 {
     private InvoiceNumber $number;
