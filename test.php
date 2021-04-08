@@ -11,6 +11,7 @@ use App\Price\Price;
 use App\Price\Currency;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\StreamOutput;
+use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 require_once __DIR__.'/vendor/autoload.php';
@@ -45,6 +46,7 @@ $builder
 
 $input = new ArgvInput();
 $output = new StreamOutput(STDOUT);
+/** @var StyleInterface $style */
 $style = new SymfonyStyle($input, $output);
 
 try {
