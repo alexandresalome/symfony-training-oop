@@ -3,12 +3,8 @@
 namespace App\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping;
 use Doctrine\ORM\Query\ResultSetMapping;
 
-/**
- * @method Mapping\ClassMetadata getClassMetadata($className)
- */
 class EntityManagerDecorator implements EntityManagerInterface
 {
     /**

@@ -36,3 +36,6 @@ services:
 
     App\Doctrine\EntityManagerDecorator:
         decorates: Doctrine\ORM\EntityManagerInterface
+
+    App\Twig\NoExampleLoaderDecorator:
+        decorates: twig.loader
