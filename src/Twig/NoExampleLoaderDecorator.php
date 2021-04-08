@@ -7,9 +7,6 @@ use Twig\Source;
 
 class NoExampleLoaderDecorator implements LoaderInterface
 {
-    /**
-     * @var LoaderInterface
-     */
     private LoaderInterface $loader;
 
     public function __construct(LoaderInterface $loader)
@@ -21,8 +18,7 @@ class NoExampleLoaderDecorator implements LoaderInterface
     {
         $origin = $this->loader->getSourceContext($name);
         $code = strtr($origin->getCode(), [
-            'Hello' => 'Coucou',
-            'Registrations' => 'Inscriptions',
+            'Hello' => 'Bien le bonjour',
         ]);
 
         return new Source($code, $origin->getName(), $origin->getPath());
@@ -30,7 +26,7 @@ class NoExampleLoaderDecorator implements LoaderInterface
 
     public function getCacheKey(string $name): string
     {
-        return $this->loader->getCacheKey($name).'x';
+        return $this->loader->getCacheKey($name).'m';
     }
 
     public function isFresh(string $name, int $time): bool
