@@ -4,7 +4,6 @@ namespace App\Invoice;
 
 class InvoiceNumber
 {
-    private const VALIDATION_RULE = '/^IN-\d+$/';
     private string $number;
 
     public function __construct(string $number)

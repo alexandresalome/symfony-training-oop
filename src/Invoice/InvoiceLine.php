@@ -2,7 +2,6 @@
 
 namespace App\Invoice;
 
-use App\Price\Currency;
 use App\Price\Price;
 use App\Price\Priced;
 use App\Price\PriceInterface;

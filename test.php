@@ -4,9 +4,10 @@ namespace Main;
 
 use App\Invoice\Builder\InvoiceBuilder;
 use App\Invoice\InvoiceRenderer;
+use App\Invoice\Validator\BillingNumberValidator;
 use App\Invoice\Validator\ChainValidator;
 use App\Invoice\Validator\GithubIsUpValidator;
-use App\Invoice\Validator\NoDifferentPriceValidator;
+use App\Invoice\Validator\HasLineValidator;
 use App\Price\Price;
 use App\Price\Currency;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -17,14 +18,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 require_once __DIR__.'/vendor/autoload.php';
 
 $validator = new ChainValidator([
+    new BillingNumberValidator(),
     new GithubIsUpValidator(),
-    new NoDifferentPriceValidator(),
+    new HasLineValidator(),
 ]);
 
 $builder = new InvoiceBuilder($validator);
 
 $builder
     // Due date
+    ->setNumber('IN-20210408-001')
     // Lines
     ->beginLine()
         ->setDescription('Fluo pencil')

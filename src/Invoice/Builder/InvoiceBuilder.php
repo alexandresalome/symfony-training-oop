@@ -4,17 +4,30 @@ namespace App\Invoice\Builder;
 
 use App\Invoice\Invoice;
 use App\Invoice\InvoiceLineCollection;
+use App\Invoice\InvoiceNumber;
 use App\Invoice\Validator\InvoiceValidatorInterface;
 
 class InvoiceBuilder
 {
     private array $lineBuilders = [];
+    private ?InvoiceNumber $number = null;
 
     private InvoiceValidatorInterface $validator;
 
     public function __construct(InvoiceValidatorInterface $validator)
     {
         $this->validator = $validator;
+    }
+
+    /**
+     * @param string|InvoiceNumber $number
+     */
+    public function setNumber($number): self
+    {
+        $number = $number instanceof InvoiceNumber ? $number : new InvoiceNumber($number);
+        $this->number = $number;
+
+        return $this;
     }
 
     public function beginLine(): InvoiceLineBuilder
@@ -27,6 +40,10 @@ class InvoiceBuilder
 
     public function createInvoice(): Invoice
     {
+        if (!$this->number) {
+            throw new \LogicException('Cannot create invoice: the invoice has no number.');
+        }
+
         $map = function (InvoiceLineBuilder $builder) {
             return $builder->createLine();
         };
@@ -34,8 +51,7 @@ class InvoiceBuilder
         $lines = array_map($map, $this->lineBuilders);
 
         $lineCollection = new InvoiceLineCollection($lines);
-
-        $invoice = new Invoice($lineCollection);
+        $invoice = new Invoice($this->number, $lineCollection);
         $this->validator->validate($invoice);
 
         return $invoice;
