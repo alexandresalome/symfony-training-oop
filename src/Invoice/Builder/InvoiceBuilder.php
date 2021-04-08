@@ -4,6 +4,7 @@ namespace App\Invoice\Builder;
 
 use App\Invoice\Invoice;
 use App\Invoice\InvoiceLineCollection;
+use App\Invoice\InvoiceNumber;
 
 class InvoiceBuilder
 {
@@ -17,8 +18,10 @@ class InvoiceBuilder
         return $builder;
     }
 
-    public function createInvoice(): Invoice
+    public function createInvoice(string $number): Invoice
     {
+        $invoiceNumber = new InvoiceNumber($number);
+
         $map = function (InvoiceLineBuilder $builder) {
             return $builder->createLine();
         };
@@ -27,17 +30,19 @@ class InvoiceBuilder
 
         $lineCollection = new InvoiceLineCollection($lines);
 
-        return new Invoice($lineCollection);
+        return new Invoice($invoiceNumber, $lineCollection);
     }
 
     public function getLine(int $position): InvoiceLineBuilder
     {
         if (!isset($this->lineBuilders[$position])) {
-            throw new \InvalidArgumentException(sprintf(
-                'No line at position %d. Positions are: %s',
-                $position,
-                empty($this->lineBuilders) ? '*none*' : implode(', ', array_keys($this->lineBuilders))
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'No line at position %d. Positions are: %s',
+                    $position,
+                    empty($this->lineBuilders) ? '*none*' : implode(', ', array_keys($this->lineBuilders))
+                )
+            );
         }
 
         return $this->lineBuilders[$position];

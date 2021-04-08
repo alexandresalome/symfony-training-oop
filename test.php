@@ -36,7 +36,7 @@ $builder
         ->setQuantity(4000)
 ;
 
-$invoice = $builder->createInvoice();
+$invoice = $builder->createInvoice('INV-123-foo');
 
 $input = new ArgvInput();
 $output = new StreamOutput(STDOUT);

@@ -8,13 +8,21 @@ use App\Price\PriceInterface;
 
 class Invoice implements Priced
 {
-    private Currency $currency;
-    private InvoiceLineCollection $lineCollection;
 
-    public function __construct(InvoiceLineCollection $lineCollection, ?Currency $currency = null)
+    private InvoiceNumber $number;
+    private InvoiceLineCollection $lineCollection;
+    private Currency $currency;
+
+    public function __construct(InvoiceNumber $number, InvoiceLineCollection $lineCollection, ?Currency $currency = null)
     {
-        $this->currency = $currency ?? new Currency('EUR');
+        $this->number = $number;
         $this->lineCollection = $lineCollection;
+        $this->currency = $currency ?? new Currency('EUR');
+    }
+
+    public function getNumber(): InvoiceNumber
+    {
+        return $this->number;
     }
 
     /**

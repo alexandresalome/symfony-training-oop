@@ -16,6 +16,9 @@ class InvoiceLineCollection implements \IteratorAggregate, \Countable, Priced
 
     public function __construct(array $lines)
     {
+        foreach ($lines as $line) {
+
+        }
         $this->lines = $lines;
     }
 
