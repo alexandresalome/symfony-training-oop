@@ -42,7 +42,7 @@ $input = new ArgvInput();
 $output = new StreamOutput(STDOUT);
 $style = new SymfonyStyle($input, $output);
 
-$style->title('LA FACTURE');
+$style->title(sprintf('LA FACTURE (#%s)', $invoice->getNumber()->getNumber()));
 
 $headers = ['Description', 'Qty', 'Unit price', 'Total price'];
 $rows = [];
